@@ -27,7 +27,7 @@ int main(){
     
     number <= 21 ?
     cout << to_string(number - 21) << endl :
-    cout << to_string(2 * (number + 21)) << endl;
+    cout << to_string(2 * (number - 21)) << endl;
     
     // ====================================
     // Домашнее задание со звёдочкой
