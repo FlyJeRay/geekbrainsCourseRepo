@@ -80,7 +80,7 @@ int main(){
         cout << "invalid year" << endl;
     }
     
-    // Использование функции в нижней части кода (строки 90-99)
+    // Использование функции в нижней части кода (строки 90-96)
     bool hw2Star_result = isLeapYear(hw2Star_year);
     
     if (hw2Star_result) cout << "hw2Star-true" << endl;
