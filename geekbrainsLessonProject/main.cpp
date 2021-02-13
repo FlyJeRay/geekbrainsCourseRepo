@@ -144,7 +144,7 @@ void arrayShiftLeft(int array[], int arraySize) {
     }
     
     array[arraySize - 1] = savedNumber;
-    printArray(array, 6);
+    printArray(array, arraySize);
 }
 
 void arrayShiftRight(int array[], int arraySize) {
@@ -155,7 +155,7 @@ void arrayShiftRight(int array[], int arraySize) {
     }
     
     array[0] = savedNumber;
-    printArray(array, 5);
+    printArray(array, arraySize);
 }
 
 // ===================================================
