@@ -2,6 +2,10 @@
 
 using namespace std;
 
+// ===================================================
+// Объявление функций
+// ===================================================
+
 void task1(double array[], int arraySize);
 void task2(int array[], int arraySize);
 void task3(int oldArray[8]);
@@ -13,6 +17,10 @@ void arrayShiftLeft(int array[], int arraySize);
 
 void printArray(int array[], int arraySize);
 void printArray(double array[], int arraySize);
+
+// ===================================================
+// Основная функция
+// ===================================================
 
 int main(){
     cout << endl << "task 1 ============================" << endl;
@@ -55,6 +63,10 @@ int main(){
     task5(task5_array5, 5);
 }
 
+// ===================================================
+// Функция для задания 1
+// ===================================================
+
 void task1(double array[], int arraySize) {
     for (int i = 0; i < arraySize; i++) {
         cout << array[i] << " ";
@@ -62,15 +74,24 @@ void task1(double array[], int arraySize) {
     cout << endl;
 }
 
+// ===================================================
+// Функция для задания 2
+// ===================================================
+
 void task2(int array[], int arraySize) {
     for (int i = 0; i < arraySize; i++) {
         if (array[i] == 0) array[i] = 1;
         else if (array[i] == 1) array[i] = 0;
+        // На всякий случай - проверка числа
         else cout << "warning -- wrong number on array[" << i << "]" << endl;
     }
     
     printArray(array, arraySize);
 }
+
+// ===================================================
+// Функция для задания 3
+// ===================================================
 
 void task3(int oldArray[8]) {
     int task3_newArray[8] = { 1, 4, 7, 10, 13, 16, 19, 22 };
@@ -82,13 +103,28 @@ void task3(int oldArray[8]) {
     printArray(oldArray, 8);
 }
 
+// ===================================================
+// Функции для задания 4
+// ===================================================
+
 void task4(int array[], int n, int arraySize) {
     cout << "/// starting task 4" << endl;
+    
+    // Проверка того, в какую сторону будет смещение,
+    // и будет ли оно идти вообще - если сместить массив
+    // нужно на n-ное количество кругов или на 0,
+    // операции смещения не нужны вовсе.
     
     if (n % arraySize == 0 || n == 0) {
         cout << "   array stays the same" << endl;
         return;
     }
+    
+    // У меня почему-то ни в какую не получалось сделать
+    // смещение сразу на несколько мест,
+    // так что я решил просто сделать цикличные смещения
+    // по одному месту
+    
     else if (n > 0) {
         for (int i = 0; i <= n; i++) arrayShiftLeft(array, arraySize);
     }
@@ -122,6 +158,10 @@ void arrayShiftRight(int array[], int arraySize) {
     printArray(array, 5);
 }
 
+// ===================================================
+// Функция для задания 5
+// ===================================================
+
 void task5(int array[], int arraySize) {
     bool result = false;
     
@@ -129,18 +169,19 @@ void task5(int array[], int arraySize) {
     int sum2 = 0;
     
     for (int i = 0; i < arraySize; i++) {
-        // get sum of first half
+        // Берём сумму всех символов первой половины
         sum1 = 0;
         for (int j = 0; j <= i; j++) {
             sum1 += array[j];
         }
         
-        // get sum of second half
+        // Берём сумму всех символов второй половины
         sum2 = 0;
         for (int k = i + 1; k < arraySize; k++) {
             sum2 += array[k];
         }
         
+        // Если сумма двух половин равна - указываем это и прерываем цикл
         if (sum1 == sum2) {
             result = true;
             break;
@@ -150,6 +191,10 @@ void task5(int array[], int arraySize) {
     if (result == true) cout << "true / " << sum1 << " + " << sum2 << endl;
     else cout << "false" << endl;
 }
+
+// ===================================================
+// Функции для быстрой печати массивов (DRY, как никак)
+// ===================================================
 
 void printArray(int array[], int arraySize) {
     for (int i = 0; i < arraySize; i++) {
