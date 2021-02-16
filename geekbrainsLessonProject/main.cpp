@@ -68,6 +68,7 @@ int * task1_initializeAnArray(int * array, int arraySize) {
         a *= 2;
     }
     
+    delete[] array;
     return array;
 }
 
