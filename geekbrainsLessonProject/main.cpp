@@ -1,213 +1,228 @@
 #include <iostream>
+#include <fstream>
+#include <math.h>
 
 using namespace std;
 
-// ===================================================
-// Объявление функций
-// ===================================================
+int task1_getNewArraySize();
+int * task1_initializeAnArray(int * array, int arraySize);
 
-void task1(double array[], int arraySize);
-void task2(int array[], int arraySize);
-void task3(int oldArray[8]);
-void task4(int array[], int n, int arraySize);
-void task5(int array[], int arraySize);
+int ** task2_initializeAnArray(int ** array);
 
-void arrayShiftRight(int array[], int arraySize);
-void arrayShiftLeft(int array[], int arraySize);
+void task3_initializeFiles();
+
+void task4_connectFiles();
+string task4_copyFileContent(string fileName, string previousContent);
+
+void task5_start();
+bool task5_checkFileContent(string fileName, string checkWord);
 
 void printArray(int array[], int arraySize);
-void printArray(double array[], int arraySize);
+void print2dArray(int ** array);
 
-// ===================================================
-// Основная функция
-// ===================================================
 
 int main(){
-    cout << endl << "task 1 ============================" << endl;
+    cout << "Task 1 ==========================" << endl;
     
-    double task1_array[] = { 1.52, 23.53, 75.12, 3.32, 9.8, 1.2 };
-    task1(task1_array, 6);
+    int task1_arraySize = task1_getNewArraySize();
+    int * task1_array = nullptr;
+    task1_array = task1_initializeAnArray(task1_array, task1_arraySize);
+    printArray(task1_array, task1_arraySize);
     
-    cout << endl << "task 2 ============================" << endl;
+    cout << endl << "Task 2 ==========================" << endl;
     
-    int task2_array[] = { 0, 1, 0, 0, 0, 1, 1, 0, 0, 1 };
-    task2(task2_array, 10);
+    int ** task2_array = nullptr;
+    task2_array = task2_initializeAnArray(task2_array);
+    print2dArray(task2_array);
+    delete[] task2_array;
     
-    cout << endl << "task 3 ============================" << endl;
+    cout << endl << "Task 3 ==========================" << endl;
+    task3_initializeFiles();
     
-    int task3_oldArray[8];
-    task3(task3_oldArray);
+    cout << endl << "Task 4 ==========================" << endl;
+    task4_connectFiles();
     
-    cout << endl << "task 4 ============================" << endl;
-    
-    int task4_array[] = { 0, 1, 2, 3, 4, 5 };
-    int task4_array2[] = { 0, 1, 2, 3, 4 };
-    int task4_array3[] = { 0, 1, 2 };
-    
-    task4(task4_array, 3, 6);
-    task4(task4_array2, -2, 5);
-    task4(task4_array3, 3, 3);
-    
-    cout << endl << "task 5 ============================" << endl;
-    
-    int task5_array1[] = { 1, 1, 1, 2, 1 };
-    int task5_array2[] = { 2, 1, 1, 2, 1 };
-    int task5_array3[] = { 10, 1, 2, 3, 4 };
-    int task5_array4[] = { 5, 1, 3, 1 };
-    int task5_array5[] = { 3, 2, 3, 8, 0 };
-    
-    task5(task5_array1, 5);
-    task5(task5_array2, 5);
-    task5(task5_array3, 5);
-    task5(task5_array4, 4);
-    task5(task5_array5, 5);
+    cout << endl << "Task 5 ==========================" << endl;
+    task5_start();
 }
 
-// ===================================================
-// Функция для задания 1
-// ===================================================
+// ====================================
+// Функции для задания 1
+// ====================================
 
-void task1(double array[], int arraySize) {
+int task1_getNewArraySize() {
+    int task1_arraySize;
+    cout << "   Массив какого размера вы хотите создать?" << endl;
+    cin >> task1_arraySize;
+    
+    return task1_arraySize;
+}
+
+int * task1_initializeAnArray(int * array, int arraySize) {
+    array = new int[arraySize];
+    
+    int a = 1;
+    
     for (int i = 0; i < arraySize; i++) {
-        cout << array[i] << " ";
+        array[i] = a;
+        a *= 2;
     }
-    cout << endl;
+    
+    return array;
 }
 
-// ===================================================
+// ====================================
 // Функция для задания 2
-// ===================================================
+// ====================================
 
-void task2(int array[], int arraySize) {
-    for (int i = 0; i < arraySize; i++) {
-        if (array[i] == 0) array[i] = 1;
-        else if (array[i] == 1) array[i] = 0;
-        // На всякий случай - проверка числа
-        else cout << "warning -- wrong number on array[" << i << "]" << endl;
+int ** task2_initializeAnArray(int ** array) {
+    array = new int * [4];
+    
+    for (int i = 0; i < 4; i++) {
+        array[i] = new int[4];
     }
     
-    printArray(array, arraySize);
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            array[i][j] = rand() % 100;
+        }
+    }
+    
+    return array;
 }
 
-// ===================================================
+// ====================================
 // Функция для задания 3
-// ===================================================
+// ====================================
 
-void task3(int oldArray[8]) {
-    int task3_newArray[8] = { 1, 4, 7, 10, 13, 16, 19, 22 };
+void task3_initializeFiles() {
+    string fileName_1, fileName_2;
     
-    for (int i = 0; i < 8; i++) {
-        oldArray[i] = task3_newArray[i];
-    }
+    cout << "   Как вы хотите назвать ваш первый файл?" << endl;
+        cin >> fileName_1;
+    cout << "   Отлично. А как вы хотите назвать ваш второй файл?" << endl;
+        cin >> fileName_2;
     
-    printArray(oldArray, 8);
+    ofstream first_file(fileName_1);
+    first_file << "Text of the first text file, made by script (by Daniil Antoniuk)" << endl;
+    first_file.close();
+    
+    ofstream second_file(fileName_2);
+    second_file << "Text of the second text file, made by script (by Daniil Antoniuk)" << endl;
+    second_file.close();
 }
 
-// ===================================================
+// ====================================
 // Функции для задания 4
-// ===================================================
+// ====================================
 
-void task4(int array[], int n, int arraySize) {
-    cout << "/// starting task 4" << endl;
+void task4_connectFiles() {
+    string fileName_1, fileName_2, fileName_final;
     
-    // Проверка того, в какую сторону будет смещение,
-    // и будет ли оно идти вообще - если сместить массив
-    // нужно на n-ное количество кругов или на 0,
-    // операции смещения не нужны вовсе.
+    cout << "   Введите название первого файла" << endl;
+    cin >> fileName_1;
     
-    if (n % arraySize == 0 || n == 0) {
-        cout << "   array stays the same" << endl;
-        return;
-    }
+    cout << "   Введите название второго файла" << endl;
+    cin >> fileName_2;
     
-    // У меня почему-то ни в какую не получалось сделать
-    // смещение сразу на несколько мест,
-    // так что я решил просто сделать цикличные смещения
-    // по одному месту
+    cout << "   Введите название файла, в котором должны быть данные двух предыдущих файлов" << endl;
+    cin >> fileName_final;
     
-    else if (n > 0) {
-        for (int i = 0; i <= n; i++) arrayShiftLeft(array, arraySize);
-    }
-    else if (n < 0) {
-        for (int i = n; i < 0; i++)  arrayShiftRight(array, arraySize);
-    }
+    string filesContent = "";
     
-    cout << "   result = ";
-    printArray(array, arraySize);
+    filesContent = task4_copyFileContent(fileName_1, filesContent);
+    filesContent += "\n\n";
+    filesContent = task4_copyFileContent(fileName_2, filesContent);
+    
+    ofstream finalFile(fileName_final);
+    finalFile << filesContent << endl;
+    finalFile.close();
 }
 
-void arrayShiftLeft(int array[], int arraySize) {
-    int savedNumber = array[0];
-    
-    for (int i = 0; i < arraySize - 1; i++) {
-        array[i] = array[i + 1];
-    }
-    
-    array[arraySize - 1] = savedNumber;
-    printArray(array, arraySize);
-}
-
-void arrayShiftRight(int array[], int arraySize) {
-    int savedNumber = array[arraySize - 1];
-    
-    for (int i = arraySize - 1; i > 0; i--) {
-        array[i] = array[i - 1];
-    }
-    
-    array[0] = savedNumber;
-    printArray(array, arraySize);
-}
-
-// ===================================================
-// Функция для задания 5
-// ===================================================
-
-void task5(int array[], int arraySize) {
-    bool result = false;
-    
-    int sum1 = 0;
-    int sum2 = 0;
-    
-    for (int i = 0; i < arraySize; i++) {
-        // Берём сумму всех символов первой половины
-        sum1 = 0;
-        for (int j = 0; j <= i; j++) {
-            sum1 += array[j];
-        }
-        
-        // Берём сумму всех символов второй половины
-        sum2 = 0;
-        for (int k = i + 1; k < arraySize; k++) {
-            sum2 += array[k];
-        }
-        
-        // Если сумма двух половин равна - указываем это и прерываем цикл
-        if (sum1 == sum2) {
-            result = true;
-            break;
+string task4_copyFileContent(string fileName, string previousContent) {
+    ifstream file(fileName);
+    previousContent += "------- Содержимое " + fileName + ": \n";
+    if (file.is_open()) {
+        const int size = 255;
+        char characters[size];
+        while (!file.eof())
+        {
+            file.getline(characters, size);
+            previousContent += characters;
         }
     }
+    else {
+        cout << "   Ошибка с чтением файла " + fileName << endl;
+    }
     
-    if (result == true) cout << "true / " << sum1 << " + " << sum2 << endl;
-    else cout << "false" << endl;
+    file.close();
+    return previousContent;
 }
 
-// ===================================================
-// Функции для быстрой печати массивов (DRY, как никак)
-// ===================================================
+// ====================================
+// Функции для задания 5
+// ====================================
+
+void task5_start() {
+    string fileName, checkWord;
+    
+    cout << "   Введите название файла, который вы хотите проверить." << endl;
+    cin >> fileName;
+    
+    cout << "   Введите слово, на наличие которого вы хотите проверить файл" << endl;
+    cin >> checkWord;
+    
+    if (task5_checkFileContent(fileName, checkWord)) {
+        cout << "Слово " + checkWord + " было найдено в файле " + fileName;
+    }
+    else {
+        cout << "Слово " + checkWord + " не было найдено в файле " + fileName << endl;
+    }
+}
+
+bool task5_checkFileContent(string fileName, string word) {
+    ifstream file(fileName);
+    
+    if (file.is_open()) {
+        const int size = 255;
+        char characters[size];
+        while (!file.eof())
+        {
+            file.getline(characters, size);
+            string line = characters;
+            // Признаюсь, тут помог stackoverflow
+            // Но, поидее, такой метод использовать и надо?
+            // Он вроде как самый простой
+            if (line.find(word) != string::npos) return true;
+        }
+    }
+    else {
+        cout << "   Ошибка с чтением файла " + fileName << endl;
+    }
+    
+    return false;
+}
+
+// ====================================
+// Общие функции
+// ====================================
 
 void printArray(int array[], int arraySize) {
+    cout << "array: ";
     for (int i = 0; i < arraySize; i++) {
         cout << array[i] << " ";
     }
-    
     cout << endl;
 }
 
-void printArray(double array[], int arraySize) {
-    for (int i = 0; i < arraySize; i++) {
-        cout << array[i] << " ";
-    }
+void print2dArray(int ** array) {
+    cout << "array: " << endl;
     
-    cout << endl;
+    for (int i = 0; i < 4; i++) {
+        cout << "   ";
+        for (int j = 0; j < 4; j++) {
+            cout << array[i][j] << " ";
+        }
+        cout << endl;
+    }
 }
