@@ -28,6 +28,7 @@ int main(){
     int * task1_array = nullptr;
     task1_array = task1_initializeAnArray(task1_array, task1_arraySize);
     printArray(task1_array, task1_arraySize);
+    delete[] task1_array;
     
     cout << endl << "Task 2 ==========================" << endl;
     
@@ -68,7 +69,6 @@ int * task1_initializeAnArray(int * array, int arraySize) {
         a *= 2;
     }
     
-    delete[] array;
     return array;
 }
 
