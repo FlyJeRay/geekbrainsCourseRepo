@@ -40,7 +40,7 @@ int main() {
     cout << endl;
     task1_procedure(task1_array3, task1_array3_size);
     cout << endl;
-    
+
     cout << endl << "--------------- TASK 2" << endl << endl;
     
     task2_procedure(5, 15);
