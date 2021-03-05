@@ -1,134 +1,144 @@
 #include <iostream>
-#include "addition.h"
-
-#define task2(x, y) (y > 0 ? (x >= 0 && x < y ? true : false) : (x <= 0 && x > y ? true : false))
-#define SwapINT(x, y) int temp = x; x = y; y = temp;
-#define task3_arraySize 5
 
 using namespace std;
-using namespace myNameSpace;
 
-#pragma pack(push, 1)
-struct Employee {
-    string name;
-    short age;
-    int id;
-    double salary;
-};
-#pragma pack(pop)
+// =======================================
+// Task 1: Class Power
+// =======================================
 
-void task1_procedure(float array[], int arraySize);
-void task2_procedure(int x, int y);
-void task3_procedure(int array[]);
-void task3_printArray(int array[], int arraySize);
-void task4_procedure(Employee employee);
-
-int main() {
-    cout << "--------------- TASK 1" << endl << endl;
+class Power {
+private:
+    float x;
+    float y;
     
-    const int task1_array1_size = 2;
-    const int task1_array2_size = 5;
-    const int task1_array3_size = 3;
-    
-    float task1_array1[task1_array1_size];
-    float task1_array2[task1_array2_size];
-    float task1_array3[task1_array3_size];
-    
-    task1_procedure(task1_array1, task1_array1_size);
-    cout << endl;
-    task1_procedure(task1_array2, task1_array2_size);
-    cout << endl;
-    task1_procedure(task1_array3, task1_array3_size);
-    cout << endl;
-
-    cout << endl << "--------------- TASK 2" << endl << endl;
-    
-    task2_procedure(5, 15);
-    task2_procedure(15, 5);
-    task2_procedure(-2, -10);
-    task2_procedure(-10, -2);
-    
-    cout << endl <<"--------------- TASK 3" << endl << endl;
-    
-    int task3_array[task3_arraySize];
-    task3_procedure(task3_array);
-    
-    cout << endl << "--------------- TASK 4" << endl << endl;
-    
-    Employee task4_employee;
-    task4_procedure(task4_employee);
-}
-
-// ========================================================
-// Task 1
-// ========================================================
-
-void task1_procedure(float array[], int arraySize) {
-    array = task1_initializeArray(array, arraySize);
-    task1_printArray(array, arraySize);
-    task1_sortArray(array, arraySize);
-}
-
-// ========================================================
-// Task 2
-// ========================================================
-
-void task2_procedure(int x, int y) {
-    if (task2(x, y)) {
-        cout << "(" << x << ", " << y << ") --- true" << endl;
+public:
+    void set(float new_x, float new_y) {
+        x = new_x;
+        y = new_y;
     }
-    else {
-        cout << "(" << x << ", " << y << " ) --- false" << endl;
-    }
-}
-
-// ========================================================
-// Task 3
-// ========================================================
-
-void task3_procedure(int array[]) {
-    for (int i = 0; i < task3_arraySize; i++) {
-        int newValue;
+    void calculate() {
+        float result = x;
+        for (int i = 1; i < y; i++) {
+            result *= x;
+        }
         
-        cout << "write down the value of array[" << i << "]" << endl;
-        cin >> newValue;
-        array[i] = newValue;
+        cout << "calculate(" << x << ", " << y << "): " << result << endl;
     }
+};
+
+// =======================================
+// Task 2: Class RGBA
+// =======================================
+
+class RGBA {
+    uint8_t m_red = 0;
+    uint8_t m_green = 0;
+    uint8_t m_blue = 0;
+    uint8_t m_alpha = 255;
     
-    for (int i = 0; i < task3_arraySize; i++) {
-        for (int j = 0; j < task3_arraySize; j++) {
-            if (array[j] > array[j + 1]) {
-                SwapINT(array[j], array[j + 1]);
-            }
+public:
+    RGBA(uint8_t r, uint8_t g, uint8_t b, uint8_t a) : m_red(r), m_green(g), m_blue(b), m_alpha(a) { }
+    
+    void print() {
+        cout << "RGBA DATA: " << endl;
+        cout << "R " << int(m_red) << endl;
+        cout << "G " << int(m_green) << endl;
+        cout << "B " << int(m_blue) << endl;
+        cout << "A " << int(m_alpha) << endl;
+    }
+};
+
+// =======================================
+// Task 3: Class Stack
+// =======================================
+
+class Stack {
+private:
+    int array[10];
+    int stack_length = 0;
+    
+public:
+    void reset() {
+        stack_length = 0;
+        for (int i = 0; i < 10; i++) {
+            array[i] = 0;
         }
     }
     
-    cout << endl;
-    task3_printArray(array, task3_arraySize);
-}
-
-void task3_printArray(int array[], int arraySize) {
-    for (int i = 0; i < arraySize; i++) {
-        cout << array[i] << " ";
+    bool push(int value) {
+        if (stack_length == 10) return false;
+        else {
+            array[stack_length] = value;
+            stack_length++;
+            return true;
+        }
     }
-}
+    
+    void pop() {
+        if (stack_length == 0) {
+            cout << "error: stack is empty" << endl;
+        }
+        else {
+            array[stack_length] = NULL;
+            stack_length--;
+        }
+    }
+    
+    void print() {
+        cout << "stack: ";
+        for (int i = 0; i < stack_length; i++) {
+            cout << array[i] << " ";
+        }
+        cout << endl;
+    }
+};
 
-// ========================================================
-// Task 4
-// ========================================================
+int main() {
+    // =======================================
+    // Task 1: Execution
+    // =======================================
+    
+    cout << "--- Task 1" << endl;
+    Power task1_power;
+    task1_power.set(5, 2);
+    task1_power.calculate();
+    
+    task1_power.set(3, 3);
+    task1_power.calculate();
+    
+    task1_power.set(2, 3);
+    task1_power.calculate();
+    
+    cout << endl;
 
-void task4_procedure(Employee employee) {
-    Employee * ptr = new Employee(employee);
-    *ptr = { "John", 21, 6546, 1000.00 };
-    employee = *ptr;
+    // =======================================
+    // Task 2: Execution
+    // =======================================
     
-    cout << "Structure: " << endl;
-    cout << "   Name: " << employee.name << endl;
-    cout << "   Age: " << employee.age << endl;
-    cout << "   ID: " << employee.id << endl;
-    cout << "   Salary: " << employee.salary << endl << endl;
+    cout << "--- Task 2" << endl;
+    RGBA task2_rgba(5, 2, 31, 248);
+    task2_rgba.print();
     
-    cout << "Structure Size: " << sizeof(employee) << endl << endl;
+    cout << endl;
     
-    delete ptr;
+    // =======================================
+    // Task 3: Execution
+    // =======================================
+    
+    cout << "--- Task 3" << endl;
+    Stack stack;
+    stack.reset();
+    stack.print();
+        
+    stack.push(3);
+    stack.push(7);
+    stack.push(5);
+    stack.print();
+        
+    stack.pop();
+    stack.print();
+    
+    stack.pop();
+    stack.pop();
+    stack.print();
 }
